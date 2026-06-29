@@ -17,9 +17,8 @@ public class EmbeddingRequest {
     @Schema(example = "[\"Text 1\", \"Text 2\"]", description = "The text or list of texts to embed")
     private Object input;
 
-    // Legacy fields for backward compatibility
-    private String prompt;
-    private Object content;
+    @io.swagger.v3.oas.annotations.media.Schema(description = "Optional model parameters such as temperature, num_ctx, etc.")
+    private java.util.Map<String, Object> options;
 
     public EmbeddingRequest() {}
 
@@ -39,20 +38,12 @@ public class EmbeddingRequest {
         this.input = input;
     }
 
-    public String getPrompt() {
-        return prompt;
+    public java.util.Map<String, Object> getOptions() {
+        return options;
     }
 
-    public void setPrompt(String prompt) {
-        this.prompt = prompt;
-    }
-
-    public Object getContent() {
-        return content;
-    }
-
-    public void setContent(Object content) {
-        this.content = content;
+    public void setOptions(java.util.Map<String, Object> options) {
+        this.options = options;
     }
 
     @Override
@@ -60,8 +51,7 @@ public class EmbeddingRequest {
         return "EmbeddingRequest{" +
                 "model='" + model + '\'' +
                 ", input=" + input +
-                ", prompt='" + prompt + '\'' +
-                ", content=" + content +
+                ", options=" + options +
                 '}';
     }
 }

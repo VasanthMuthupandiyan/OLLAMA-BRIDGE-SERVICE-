@@ -67,7 +67,7 @@ public class OllamaBridgeController {
      * 
      * Example Client Curl Request:
      * curl -H "X-API-KEY: ollama-bridge-secret-key-12345" -H "Content-Type: application/json" \
-     * -d '{"content":"What is Spring Boot?"}' http://localhost:7483/api/embeddings
+     * -d '{"input":"What is Spring Boot?"}' http://localhost:7483/api/embeddings
      * 
      * @param request Incoming model and prompt description to embed
      * @return EmbeddingResponse containing the generated vector array

@@ -18,6 +18,12 @@ public class RestClientConfig {
     @Value("${ollama.base-url}")
     private String ollamaBaseUrl;
 
+    @Value("${ollama.timeout.connect:10s}")
+    private java.time.Duration connectTimeout;
+
+    @Value("${ollama.timeout.read:10s}")
+    private java.time.Duration readTimeout;
+
     /**
      * Developer Comment:
      * Defines a RestClient bean pre-configured with the Ollama base URL
@@ -27,7 +33,12 @@ public class RestClientConfig {
      */
     @Bean
     public RestClient ollamaRestClient() {
+        org.springframework.http.client.SimpleClientHttpRequestFactory factory = new org.springframework.http.client.SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(connectTimeout);
+        factory.setReadTimeout(readTimeout);
+
         return RestClient.builder()
+                .requestFactory(factory)
                 .baseUrl(ollamaBaseUrl)
                 .defaultHeader("Content-Type", "application/json")
                 .build();

@@ -91,14 +91,7 @@ public class OllamaService {
         // Unconditionally use the configured default embedding model
         request.setModel(defaultEmbeddingModel);
         
-        // Map old client fields (content or prompt) to the new 'input' field for /api/embed
-        if (request.getInput() == null) {
-            if (request.getContent() != null) {
-                request.setInput(request.getContent());
-            } else if (request.getPrompt() != null) {
-                request.setInput(request.getPrompt());
-            }
-        }
+        // Removed legacy mapping logic since we only support 'input' now
 
         log.info("Forwarding embedding request to Ollama /api/embed. Model: {}", request.getModel());
 
