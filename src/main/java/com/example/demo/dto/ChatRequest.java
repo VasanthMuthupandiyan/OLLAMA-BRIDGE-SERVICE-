@@ -18,9 +18,6 @@ public class ChatRequest {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Boolean stream = false;
 
-    @io.swagger.v3.oas.annotations.media.Schema(description = "Optional model parameters such as temperature, num_ctx, etc.")
-    private java.util.Map<String, Object> options;
-
     // Default constructor for Jackson JSON deserialization
     public ChatRequest() {}
 
@@ -57,21 +54,12 @@ public class ChatRequest {
         this.stream = stream;
     }
 
-    public java.util.Map<String, Object> getOptions() {
-        return options;
-    }
-
-    public void setOptions(java.util.Map<String, Object> options) {
-        this.options = options;
-    }
-
     @Override
     public String toString() {
         return "ChatRequest{" +
                 "model='" + model + '\'' +
                 ", messages=" + messages +
                 ", stream=" + stream +
-                ", options=" + options +
                 '}';
     }
 }

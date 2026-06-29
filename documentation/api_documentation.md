@@ -27,7 +27,6 @@ Sends a single prompt or a multi-turn conversation history. You can pass multipl
 *   `messages` (Array of objects, required):
     *   `role` (String): Who is sending the message (`system`, `user`, or `assistant`).
     *   `content` (String): The message text.
-*   `options` (Object, optional): Advanced model parameters (e.g., `temperature`, `num_predict`, `num_ctx`, `seed`).
 
 #### Curl Example (Multi-Role Conversation History)
 ```bash
@@ -63,7 +62,6 @@ Generates vector embeddings for a given input text or array of texts (batching) 
 
 #### Request Schema
 *   `input` (String or Array of Strings, required): The text(s) to run the embedding on.
-*   `options` (Object, optional): Advanced model parameters (e.g., `temperature`, `num_predict`, `num_ctx`, `seed`).
 
 #### Curl Example (Single Request)
 ```bash

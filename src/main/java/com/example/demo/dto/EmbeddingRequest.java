@@ -17,9 +17,6 @@ public class EmbeddingRequest {
     @Schema(example = "[\"Text 1\", \"Text 2\"]", description = "The text or list of texts to embed")
     private Object input;
 
-    @io.swagger.v3.oas.annotations.media.Schema(description = "Optional model parameters such as temperature, num_ctx, etc.")
-    private java.util.Map<String, Object> options;
-
     public EmbeddingRequest() {}
 
     public String getModel() {
@@ -38,20 +35,11 @@ public class EmbeddingRequest {
         this.input = input;
     }
 
-    public java.util.Map<String, Object> getOptions() {
-        return options;
-    }
-
-    public void setOptions(java.util.Map<String, Object> options) {
-        this.options = options;
-    }
-
     @Override
     public String toString() {
         return "EmbeddingRequest{" +
                 "model='" + model + '\'' +
                 ", input=" + input +
-                ", options=" + options +
                 '}';
     }
 }
