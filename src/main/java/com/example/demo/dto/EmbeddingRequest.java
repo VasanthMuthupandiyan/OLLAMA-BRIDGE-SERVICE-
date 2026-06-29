@@ -6,29 +6,22 @@ import io.swagger.v3.oas.annotations.media.Schema;
 /**
  * Developer Comment:
  * DTO representing the Embedding request payload.
- * Used to capture client requests and forwards to Ollama's /api/embeddings.
+ * Updated to support Ollama's /api/embed which accepts 'input' (String or List).
  */
 public class EmbeddingRequest {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String model;
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    // The new Ollama /api/embed takes "input", which can be a String or Array of Strings.
+    @Schema(example = "[\"Text 1\", \"Text 2\"]", description = "The text or list of texts to embed")
+    private Object input;
+
+    // Legacy fields for backward compatibility
     private String prompt;
+    private Object content;
 
-    @Schema(example = "What is Spring Boot?", description = "The text content to generate embeddings for")
-    private String content;
-
-    // Default constructor for Jackson JSON deserialization
     public EmbeddingRequest() {}
-
-    /**
-     * Constructor for convenience.
-     */
-    public EmbeddingRequest(String model, String prompt) {
-        this.model = model;
-        this.prompt = prompt;
-    }
 
     public String getModel() {
         return model;
@@ -36,6 +29,14 @@ public class EmbeddingRequest {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public Object getInput() {
+        return input;
+    }
+
+    public void setInput(Object input) {
+        this.input = input;
     }
 
     public String getPrompt() {
@@ -46,11 +47,11 @@ public class EmbeddingRequest {
         this.prompt = prompt;
     }
 
-    public String getContent() {
+    public Object getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(Object content) {
         this.content = content;
     }
 
@@ -58,8 +59,9 @@ public class EmbeddingRequest {
     public String toString() {
         return "EmbeddingRequest{" +
                 "model='" + model + '\'' +
+                ", input=" + input +
                 ", prompt='" + prompt + '\'' +
-                ", content='" + content + '\'' +
+                ", content=" + content +
                 '}';
     }
 }

@@ -1,30 +1,21 @@
 package com.example.demo.dto;
 
-import java.util.Arrays;
-
 /**
  * Developer Comment:
- * DTO representing the response from Ollama's /api/embeddings endpoint.
- * Contains the generated vector embedding values.
+ * DTO representing the response from Ollama's /api/embed endpoint.
+ * Contains the generated vector embedding values in a 2D array (for batching).
  */
 public class EmbeddingResponse {
 
     private String model;
+    
+    // /api/embed returns a 2D array (list of embeddings)
+    private double[][] embeddings;
+    
+    // Legacy /api/embeddings returned a single 1D array
     private double[] embedding;
 
-    // Default constructor for Jackson JSON deserialization
     public EmbeddingResponse() {}
-
-    /**
-     * Developer Comment:
-     * Constructor for convenience.
-     * @param model Model name
-     * @param embedding Array of double values representing the vector embedding
-     */
-    public EmbeddingResponse(String model, double[] embedding) {
-        this.model = model;
-        this.embedding = embedding;
-    }
 
     public String getModel() {
         return model;
@@ -32,6 +23,14 @@ public class EmbeddingResponse {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public double[][] getEmbeddings() {
+        return embeddings;
+    }
+
+    public void setEmbeddings(double[][] embeddings) {
+        this.embeddings = embeddings;
     }
 
     public double[] getEmbedding() {
@@ -46,7 +45,7 @@ public class EmbeddingResponse {
     public String toString() {
         return "EmbeddingResponse{" +
                 "model='" + model + '\'' +
-                ", embeddingLength=" + (embedding != null ? embedding.length : 0) +
+                ", embeddingsCount=" + (embeddings != null ? embeddings.length : 0) +
                 '}';
     }
 }

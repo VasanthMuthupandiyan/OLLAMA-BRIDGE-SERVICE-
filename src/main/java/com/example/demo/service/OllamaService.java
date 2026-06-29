@@ -91,19 +91,21 @@ public class OllamaService {
         // Unconditionally use the configured default embedding model
         request.setModel(defaultEmbeddingModel);
         
-        // Map client content parameter to prompt for downstream Ollama API
-        if (request.getContent() != null && !request.getContent().trim().isEmpty()) {
-            request.setPrompt(request.getContent());
+        // Map old client fields (content or prompt) to the new 'input' field for /api/embed
+        if (request.getInput() == null) {
+            if (request.getContent() != null) {
+                request.setInput(request.getContent());
+            } else if (request.getPrompt() != null) {
+                request.setInput(request.getPrompt());
+            }
         }
-        log.info("Forwarding embedding request to Ollama. Model: {}, Prompt preview: '{}'", 
-                request.getModel(), 
-                request.getPrompt() != null && request.getPrompt().length() > 30 
-                        ? request.getPrompt().substring(0, 30) + "..." : request.getPrompt());
+
+        log.info("Forwarding embedding request to Ollama /api/embed. Model: {}", request.getModel());
 
         try {
-            // Perform POST request to Ollama's /api/embeddings endpoint
+            // Perform POST request to Ollama's /api/embed endpoint (supports batching)
             EmbeddingResponse response = restClient.post()
-                    .uri("")
+                    .uri("/api/embed")
                     .body(request)
                     .retrieve()
                     .body(EmbeddingResponse.class);

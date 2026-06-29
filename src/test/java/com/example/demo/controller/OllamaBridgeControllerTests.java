@@ -108,9 +108,11 @@ public class OllamaBridgeControllerTests {
     @Test
     public void givenValidApiKey_whenEmbedding_thenReturnSuccess200() throws Exception {
         EmbeddingRequest request = new EmbeddingRequest();
-        request.setContent("What is Spring Boot?");
-        double[] mockEmbedding = {0.1, 0.2, 0.3};
-        EmbeddingResponse expectedResponse = new EmbeddingResponse("embeddinggemma", mockEmbedding);
+        request.setInput("What is Spring Boot?");
+        double[][] mockEmbeddings = {{0.1, 0.2, 0.3}};
+        EmbeddingResponse expectedResponse = new EmbeddingResponse();
+        expectedResponse.setModel("embeddinggemma");
+        expectedResponse.setEmbeddings(mockEmbeddings);
 
         // Define mock behavior for the service
         Mockito.when(ollamaService.embed(Mockito.any(EmbeddingRequest.class))).thenReturn(expectedResponse);
@@ -121,10 +123,10 @@ public class OllamaBridgeControllerTests {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.model").value("embeddinggemma"))
-                .andExpect(jsonPath("$.embedding").isArray())
-                .andExpect(jsonPath("$.embedding[0]").value(0.1))
-                .andExpect(jsonPath("$.embedding[1]").value(0.2))
-                .andExpect(jsonPath("$.embedding[2]").value(0.3));
+                .andExpect(jsonPath("$.embeddings").isArray())
+                .andExpect(jsonPath("$.embeddings[0][0]").value(0.1))
+                .andExpect(jsonPath("$.embeddings[0][1]").value(0.2))
+                .andExpect(jsonPath("$.embeddings[0][2]").value(0.3));
     }
 
     /**

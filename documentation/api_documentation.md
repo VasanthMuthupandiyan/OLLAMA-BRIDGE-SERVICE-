@@ -58,29 +58,47 @@ curl -X POST http://localhost:7483/api/chat \
 ---
 
 ### 2. Generate Embeddings (`POST /api/embeddings`)
-Generates vector embeddings for a given input text using the default embedding model.
+Generates vector embeddings for a given input text or array of texts (batching) using the default embedding model.
 
 #### Request Schema
-*   `content` (String, required): The text to run the embedding on.
+*   `input` (String or Array of Strings, required): The text(s) to run the embedding on. *(Note: For backward compatibility, `content` or `prompt` is also accepted).*
 
-#### Curl Example
+#### Curl Example (Single Request)
 ```bash
 curl -X POST http://localhost:7483/api/embeddings \
   -H "X-API-KEY: ollama-bridge-secret-key-12345" \
   -H "Content-Type: application/json" \
   -d '{
-    "content": "What is Spring Boot?"
+    "input": "What is Spring Boot?"
+  }'
+```
+
+#### Curl Example (Batch Request)
+```bash
+curl -X POST http://localhost:7483/api/embeddings \
+  -H "X-API-KEY: ollama-bridge-secret-key-12345" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "input": ["What is Spring Boot?", "What is Gemma?"]
   }'
 ```
 
 #### Example Response
+Returns a 2D array (`embeddings`), which supports multiple vectors for batching.
 ```json
 {
   "model": "embeddinggemma",
-  "embedding": [
-    0.012354,
-    -0.084723,
-    0.204593
+  "embeddings": [
+    [
+      0.012354,
+      -0.084723,
+      0.204593
+    ],
+    [
+      0.034567,
+      -0.012345,
+      0.987654
+    ]
   ]
 }
 ```
